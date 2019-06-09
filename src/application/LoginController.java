@@ -5,9 +5,13 @@ import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class LoginController implements Initializable {
 
@@ -36,6 +40,19 @@ public class LoginController implements Initializable {
 		try {
 			if(loginModel.isLogin(usernameTfd.getText(), passwordPfd.getText())) {
 				isConnected.setText("Username and Password correct");
+				
+				
+				Stage primaryStage = new Stage();
+				FXMLLoader loader = new FXMLLoader();
+				Pane root = loader.load(getClass().getResource("/application/User.fxml").openStream());
+				UserController userController = (UserController)loader.getController();
+				userController.GetUser(usernameTfd.getText());
+				
+				Scene scene = new Scene(root);
+				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+				primaryStage.setScene(scene);
+				primaryStage.show();
+				
 			} else {
 				isConnected.setText("Username or Password is not correct");
 			}
